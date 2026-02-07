@@ -5,6 +5,60 @@
     --text-color: #2D3436;
     --bg-color: #F7F9FC;
     --card-bg: #FFFFFF;
+    
+    /* Dark Mode Support Variables */
+    --subtitle-color: #636e72;
+    --price-bg: #e0f7fa;
+    --price-text: #006064;
+    --price-border: #b2ebf2;
+    --quote-bg: #f1f2f6;
+    --control-panel-bg: #ffffff;
+    --radio-bg: #f8f9fa;
+    --radio-border: #e9ecef;
+    --radio-text: #636e72;
+    --checkbox-bg: #ffffff;
+    --shadow-color: rgba(0,0,0,0.1);
+    --grid-color: #e0e0e0;
+    --footer-color: #b2bec3;
+    --hover-radio-bg: #ffffff;
+    --hover-checkbox-bg: #fffdf0;
+    
+    /* Wheel Colors */
+    --wheel-bg: linear-gradient(145deg, #ffffff, #e6e6e6);
+    --wheel-shadow-1: #bebebe;
+    --wheel-shadow-2: #ffffff;
+    --wheel-center-bg: white;
+    --wheel-dashed: #d1d8e0;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text-color: #dfe6e9;
+        --bg-color: #1e272e;
+        --card-bg: #2d3436;
+        --subtitle-color: #b2bec3;
+        --price-bg: #2d3436;
+        --price-text: #81ecec;
+        --price-border: #00cec9;
+        --quote-bg: #353b48;
+        --control-panel-bg: #2d3436;
+        --radio-bg: #353b48;
+        --radio-border: #4a4a4a;
+        --radio-text: #b2bec3;
+        --checkbox-bg: #353b48;
+        --shadow-color: rgba(0,0,0,0.5);
+        --grid-color: #353b48;
+        --footer-color: #636e72;
+        --hover-radio-bg: #404b5a;
+        --hover-checkbox-bg: #404b5a;
+        
+        /* Dark Mode Wheel */
+        --wheel-bg: linear-gradient(145deg, #2d3436, #1e272e);
+        --wheel-shadow-1: #151b20;
+        --wheel-shadow-2: #353b48;
+        --wheel-center-bg: #2d3436;
+        --wheel-dashed: #4a4a4a;
+    }
 }
 
 * {
@@ -16,7 +70,7 @@
 body {
     font-family: 'Nunito', sans-serif;
     background-color: var(--bg-color);
-    background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+    background-image: radial-gradient(var(--grid-color) 1px, transparent 1px);
     background-size: 20px 20px;
     color: var(--text-color);
     min-height: 100vh;
@@ -27,6 +81,7 @@ body {
     text-align: center;
     /* Prevent pull-to-refresh on mobile if needed, or overscroll */
     overscroll-behavior-y: none; 
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -44,7 +99,7 @@ header h1 {
 }
 
 .subtitle {
-    color: #636e72;
+    color: var(--subtitle-color);
     margin-bottom: 2rem;
     font-size: 1.1rem;
 }
@@ -54,9 +109,9 @@ header h1 {
     background: var(--card-bg);
     padding: 1.5rem;
     border-radius: 20px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 25px var(--shadow-color);
     margin-bottom: 1.5rem;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
     border: 3px solid var(--secondary-color);
 }
 
@@ -79,7 +134,7 @@ header h1 {
 }
 
 .food-desc {
-    color: #636e72;
+    color: var(--subtitle-color);
     margin-bottom: 0.5rem;
     font-size: 1rem;
     line-height: 1.4;
@@ -87,21 +142,21 @@ header h1 {
 
 .price-tag {
     display: inline-block;
-    background: #e0f7fa;
-    color: #006064;
+    background: var(--price-bg);
+    color: var(--price-text);
     padding: 5px 12px;
     border-radius: 15px;
     font-weight: bold;
     font-size: 0.9rem;
     margin-bottom: 1rem;
-    border: 1px solid #b2ebf2;
+    border: 1px solid var(--price-border);
 }
 
 .quote {
     font-style: italic;
-    color: #636e72;
+    color: var(--subtitle-color);
     margin-bottom: 1.5rem;
-    background: #f1f2f6;
+    background: var(--quote-bg);
     padding: 10px;
     border-radius: 10px;
 }
@@ -162,7 +217,7 @@ button:active {
     }
 
     .radio-label:hover .radio-custom {
-        background: #fff;
+        background: var(--hover-radio-bg);
         border-color: var(--secondary-color);
         transform: translateY(-1px);
         box-shadow: 0 2px 8px rgba(0,0,0,0.05);
@@ -170,7 +225,7 @@ button:active {
 
     .checkbox-label:hover .checkbox-custom {
         border-color: var(--accent-color);
-        background: #fffdf0;
+        background: var(--hover-checkbox-bg);
     }
 
     footer .about-app a:hover {
@@ -234,19 +289,19 @@ button:active {
 footer {
     margin-top: 1rem;
     font-size: 0.8rem;
-    color: #b2bec3;
+    color: var(--footer-color);
 }
 
 footer .about-app {
     margin-top: 4px;
     font-size: 0.75rem;
-    color: #b2bec3;
+    color: var(--footer-color);
 }
 
 footer .about-app a {
     color: inherit;
     text-decoration: none;
-    border-bottom: 1px dotted #b2bec3;
+    border-bottom: 1px dotted var(--footer-color);
 }
 
 /* Responsive */
@@ -268,14 +323,15 @@ footer .about-app a {
 
 /* Controls Panel */
 .controls-panel {
-    background: white;
+    background: var(--control-panel-bg);
     padding: 1rem;
     border-radius: 20px;
     margin-bottom: 1.5rem;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 15px var(--shadow-color);
     text-align: center; /* Center everything by default */
     font-size: 0.9rem;
-    border: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid var(--shadow-color);
+    transition: background-color 0.3s ease;
 }
 
 .finance-mode, .filters, .type-mode {
@@ -324,13 +380,13 @@ footer .about-app a {
     align-items: center;
     justify-content: center;
     padding: 8px 5px; /* Reduced padding */
-    background: #f8f9fa;
+    background: var(--radio-bg);
     border-radius: 12px;
     text-align: center;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid #e9ecef; /* Thinner border */
+    border: 1px solid var(--radio-border); /* Thinner border */
     font-weight: 600;
-    color: #636e72;
+    color: var(--radio-text);
     height: 100%;
     font-size: 0.9rem;
 }
@@ -373,12 +429,12 @@ footer .about-app a {
     align-items: center;
     justify-content: center;
     padding: 6px 12px; /* Smaller padding */
-    background: #fff;
+    background: var(--checkbox-bg);
     border-radius: 50px;
     font-size: 0.85rem; /* Smaller font */
-    color: #636e72;
+    color: var(--radio-text);
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid #e9ecef;
+    border: 1px solid var(--radio-border);
     font-weight: 600;
     width: auto; /* Auto width */
     min-width: max-content;
@@ -440,11 +496,11 @@ footer .about-app a {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    background: var(--wheel-bg);
     border-radius: 50%;
     box-shadow: 
-        10px 10px 20px #bebebe, 
-        -10px -10px 20px #ffffff;
+        10px 10px 20px var(--wheel-shadow-1), 
+        -10px -10px 20px var(--wheel-shadow-2);
     padding: 10px;
 }
 
@@ -454,7 +510,7 @@ footer .about-app a {
     position: absolute;
     top: 10px; left: 10px; right: 10px; bottom: 10px;
     border-radius: 50%;
-    border: 2px dashed #d1d8e0;
+    border: 2px dashed var(--wheel-dashed);
     pointer-events: none;
 }
 
@@ -464,7 +520,7 @@ footer .about-app a {
     border-radius: 50%;
     position: relative;
     transition: transform 4s cubic-bezier(0.15, 0.9, 0.35, 1.05); /* Spring-like easing */
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    box-shadow: 0 0 15px var(--shadow-color);
     /* Conic gradient set via JS */
 }
 
@@ -476,10 +532,10 @@ footer .about-app a {
     transform: translate(-50%, -50%);
     width: 60px;
     height: 60px;
-    background: white;
+    background: var(--wheel-center-bg);
     border-radius: 50%;
     z-index: 5;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 10px var(--shadow-color);
     display: flex;
     justify-content: center;
     align-items: center;

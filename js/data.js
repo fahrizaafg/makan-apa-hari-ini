@@ -1,11 +1,13 @@
 import { foods } from './foods.js';
 import { drinks } from './drinks.js';
+import { alcohol } from './alcohol.js';
 
 // --- DATABASE MAKANAN & MINUMAN ---
-// Gabungan dari file foods.js dan drinks.js agar kompatibel dengan logika yang sudah ada
+// Gabungan dari file foods.js, drinks.js, dan alcohol.js agar kompatibel dengan logika yang sudah ada
 export const foodList = [
     ...foods,
-    ...drinks
+    ...drinks,
+    ...alcohol
 ];
 
 // --- FUNNY QUOTES ---

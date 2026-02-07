@@ -4,7 +4,8 @@ import {
     radioFinance, radioType, 
     filterSpicy, filterHealthy, 
     filterNoSpicy, filterSoup, filterFried,
-    filterRice, filterNoodle, filterMeat, filterSeafood
+    filterRice, filterNoodle, filterMeat, filterSeafood,
+    filterAlcohol
 } from './dom.js';
 
 export function getFilteredFood() {
@@ -22,6 +23,9 @@ export function getFilteredFood() {
 
     // --- TEMPAT MAKAN LOGIC ---
     if (selectedType === 'tempat') {
+        // Jika filter Alcohol DICENTANG saat mode Tempat, return empty (karena alkohol bukan tempat)
+        if (filterAlcohol.checked) return [];
+
         return placesList.filter(place => {
             // Bokek Mode: Price 1 (Warkop/Warung)
             if (selectedMode === 'bokek') {
@@ -39,14 +43,32 @@ export function getFilteredFood() {
     return foodList.filter(food => {
         // --- TYPE FILTER ---
         if (selectedType === 'makanan') {
+            // Jika filter Alcohol DICENTANG saat mode Makanan, return false
+            if (filterAlcohol.checked) return false;
+            
             if (food.category === 'Minuman') return false;
-            if (food.tags.includes('masak')) return false;
+            if (food.category === 'Alkohol') return false; // Fix: Jangan tampilkan alkohol di makanan
+            if (food.tags && food.tags.indexOf('masak') !== -1) return false;
         } 
         else if (selectedType === 'minuman') {
-            if (food.category !== 'Minuman') return false;
+            // Jika filter Alcohol TIDAK dicentang, sembunyikan semua yang bertag 'mabok'
+            if (!filterAlcohol.checked) {
+                if (food.tags && food.tags.indexOf('mabok') !== -1) return false;
+            }
+            // Jika filter Alcohol DICENTANG, HANYA tampilkan yang bertag 'mabok'
+            else {
+                if (!food.tags || food.tags.indexOf('mabok') === -1) return false;
+            }
+
+            // Pastikan kategori tetap Minuman atau Alkohol
+            if (food.category !== 'Minuman' && food.category !== 'Alkohol') return false;
         }
         else if (selectedType === 'masak') {
-            if (!food.tags.includes('masak')) return false;
+            // Jika filter Alcohol DICENTANG saat mode Masak, return false
+            if (filterAlcohol.checked) return false;
+
+            if (!food.tags || food.tags.indexOf('masak') === -1) return false;
+            if (food.category === 'Alkohol') return false; // Fix: Jangan tampilkan alkohol di masak
         }
 
         // --- PRICE FILTER ---
@@ -63,34 +85,34 @@ export function getFilteredFood() {
         const searchStr = (food.name + " " + food.desc + " " + food.category + " " + (food.tags ? food.tags.join(" ") : "")).toLowerCase();
 
         // 1. Healthy
-        if (filterHealthy.checked && !food.tags.includes('sehat')) return false;
+        if (filterHealthy.checked && (!food.tags || food.tags.indexOf('sehat') === -1)) return false;
         
         // 2. Spicy
-        if (filterSpicy.checked && !food.tags.includes('pedas')) return false;
+        if (filterSpicy.checked && (!food.tags || food.tags.indexOf('pedas') === -1)) return false;
         
         // 3. No Spicy
-        if (filterNoSpicy.checked && food.tags.includes('pedas')) return false;
+        if (filterNoSpicy.checked && food.tags && food.tags.indexOf('pedas') !== -1) return false;
 
         // 4. Soup / Berkuah
         if (filterSoup.checked) {
             const soupCategories = ['Soto', 'Sop', 'Bakso', 'Sayur'];
             const soupKeywords = ['kuah', 'siram', 'godog', 'rebus', 'steamboat', 'suki'];
             
-            const isSoupCategory = soupCategories.includes(food.category);
-            const hasSoupKeyword = soupKeywords.some(k => searchStr.includes(k));
-            const isDryKeyword = ['goreng', 'bakar', 'penyet', 'kering', 'yamin'].some(k => searchStr.includes(k));
+            const isSoupCategory = soupCategories.indexOf(food.category) !== -1;
+            const hasSoupKeyword = soupKeywords.some(k => searchStr.indexOf(k) !== -1);
+            const isDryKeyword = ['goreng', 'bakar', 'penyet', 'kering', 'yamin'].some(k => searchStr.indexOf(k) !== -1);
 
             if (food.category === 'Minuman') {
                  const drinkSoupKeywords = ['wedang', 'sop buah', 'sekoteng'];
-                 if (!drinkSoupKeywords.some(k => searchStr.includes(k))) return false;
+                 if (!drinkSoupKeywords.some(k => searchStr.indexOf(k) !== -1)) return false;
             } else {
                 if (isSoupCategory) {
-                    if (searchStr.includes('bakar') || searchStr.includes('goreng')) {
-                         if (!searchStr.includes('kuah')) return false;
+                    if (searchStr.indexOf('bakar') !== -1 || searchStr.indexOf('goreng') !== -1) {
+                         if (searchStr.indexOf('kuah') === -1) return false;
                     }
                 } else {
                     if (!hasSoupKeyword) return false;
-                    if (isDryKeyword && !searchStr.includes('kuah')) return false;
+                    if (isDryKeyword && searchStr.indexOf('kuah') === -1) return false;
                 }
             }
         }
@@ -98,14 +120,14 @@ export function getFilteredFood() {
         // 5. Fried / Gorengan
         if (filterFried.checked) {
             const friedKeywords = ['goreng', 'bakar', 'penyet', 'krispi', 'fry', 'katsu', 'geprek', 'sate', 'steak']; 
-            const hasFriedKeyword = friedKeywords.some(k => searchStr.includes(k));
+            const hasFriedKeyword = friedKeywords.some(k => searchStr.indexOf(k) !== -1);
             if (!hasFriedKeyword) return false;
         }
 
         // 6. Rice / Nasi
         if (filterRice.checked) {
             const isRiceCategory = food.category === 'Nasi';
-            const hasRiceKeyword = searchStr.includes('nasi') || searchStr.includes('rice') || searchStr.includes('bubur') || searchStr.includes('lontong') || searchStr.includes('ketupat');
+            const hasRiceKeyword = searchStr.indexOf('nasi') !== -1 || searchStr.indexOf('rice') !== -1 || searchStr.indexOf('bubur') !== -1 || searchStr.indexOf('lontong') !== -1 || searchStr.indexOf('ketupat') !== -1;
             // Check if it's a "Lauk" that is typically eaten with rice? No, strict "Nasi" usually means "Rice Dish".
             // If user selects "Nasi", they probably want Nasi Goreng, Nasi Uduk, etc.
             if (!isRiceCategory && !hasRiceKeyword) return false;
@@ -114,7 +136,7 @@ export function getFilteredFood() {
         // 7. Noodle / Mie
         if (filterNoodle.checked) {
             const isNoodleCategory = food.category === 'Mie' || food.category === 'Pasta';
-            const hasNoodleKeyword = searchStr.includes('mie') || searchStr.includes('noodle') || searchStr.includes('spaghetti') || searchStr.includes('pasta') || searchStr.includes('kwetiau') || searchStr.includes('bihun') || searchStr.includes('soun') || searchStr.includes('ramen') || searchStr.includes('udon');
+            const hasNoodleKeyword = searchStr.indexOf('mie') !== -1 || searchStr.indexOf('noodle') !== -1 || searchStr.indexOf('spaghetti') !== -1 || searchStr.indexOf('pasta') !== -1 || searchStr.indexOf('kwetiau') !== -1 || searchStr.indexOf('bihun') !== -1 || searchStr.indexOf('soun') !== -1 || searchStr.indexOf('ramen') !== -1 || searchStr.indexOf('udon') !== -1;
             if (!isNoodleCategory && !hasNoodleKeyword) return false;
         }
 
@@ -124,10 +146,10 @@ export function getFilteredFood() {
             const meatKeywords = ['sapi', 'ayam', 'bebek', 'kambing', 'babi', 'steak', 'burger', 'meat', 'chicken', 'beef', 'pork', 'lamb', 'sosis', 'kornet', 'bakso', 'rendang', 'gulai', 'sate'];
             
             // Exclude if Seafood/Ikan (unless Mixed)
-            const isSeafood = food.category === 'Ikan' || food.category === 'Seafood' || searchStr.includes('ikan') || searchStr.includes('udang') || searchStr.includes('cumi');
+            const isSeafood = food.category === 'Ikan' || food.category === 'Seafood' || searchStr.indexOf('ikan') !== -1 || searchStr.indexOf('udang') !== -1 || searchStr.indexOf('cumi') !== -1;
             
-            const isMeatCategory = meatCategories.includes(food.category);
-            const hasMeatKeyword = meatKeywords.some(k => searchStr.includes(k));
+            const isMeatCategory = meatCategories.indexOf(food.category) !== -1;
+            const hasMeatKeyword = meatKeywords.some(k => searchStr.indexOf(k) !== -1);
             
             if (!isMeatCategory && !hasMeatKeyword) return false;
             
@@ -144,11 +166,11 @@ export function getFilteredFood() {
             // but 'ikan' usually covers it or tags.
             const seafoodKeywords = ['ikan', 'udang', 'cumi', 'kepiting', 'kerang', 'lele', 'gurame', 'nila', 'kakap', 'dori', 'tuna', 'salmon', 'sardine'];
             
-            const isSeafoodCategory = seafoodCategories.includes(food.category);
-            let hasSeafoodKeyword = seafoodKeywords.some(k => searchStr.includes(k));
+            const isSeafoodCategory = seafoodCategories.indexOf(food.category) !== -1;
+            let hasSeafoodKeyword = seafoodKeywords.some(k => searchStr.indexOf(k) !== -1);
             
             // Special check for 'teri' (anchovy) but avoid 'teriyaki'
-            if (searchStr.includes('teri') && !searchStr.includes('teriyaki')) {
+            if (searchStr.indexOf('teri') !== -1 && searchStr.indexOf('teriyaki') === -1) {
                 hasSeafoodKeyword = true;
             }
             

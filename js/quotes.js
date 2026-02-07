@@ -59,6 +59,20 @@ const quotesData = [
     { tags: ['minuman'], text: "Manisnya pas, kayak kamu." },
     { tags: ['minuman'], text: "Seger bener, dahaga hilang seketika." },
 
+    // --- ALKOHOL / MABOK ---
+    { tags: ['mabok'], text: "Ingat, besok kerja (kalau ingat)." },
+    { tags: ['mabok'], text: "Satu gelas buat happy, dua gelas buat lupa diri." },
+    { tags: ['mabok'], text: "Minum air putihnya dibanyakin ya bos." },
+    { tags: ['mabok'], text: "Pusingnya besok, senengnya sekarang." },
+    { tags: ['mabok'], text: "Jangan nelpon mantan, bahaya." },
+    { tags: ['mabok'], text: "Mabok elit, bayar sulit (canda)." },
+    { tags: ['mabok'], text: "Pulang naik grab aja, jangan nyetir!" },
+    { tags: ['mabok'], text: "Hati-hati, tembok bisa goyang sendiri." },
+    { tags: ['mabok'], text: "Obat stress paling ampuh (sementara)." },
+    { tags: ['mabok'], text: "Nikmati malam ini, lupakan tagihan." },
+    { tags: ['mabok'], text: "Mabok dikit nggak ngaruh." },
+    { tags: ['mabok'], text: "Siap-siap hangover besok pagi." },
+
     // --- MASAK SENDIRI / KOSAN ---
     { tags: ['masak'], text: "Masak sendiri = Irit pangkal kaya." },
     { tags: ['masak'], text: "Skill chef bintang lima (versi sendiri)." },
@@ -107,14 +121,21 @@ export function getRelevantQuote(item, mode) {
     if (item.tags && item.tags.includes('masak')) itemTags.push('masak');
     if (item.tags && item.tags.includes('non-halal')) itemTags.push('non-halal');
     
+    // ABV Tags Logic
+    if (item.abv) {
+        if (item.abv < 5) itemTags.push('low_abv');
+        else if (item.abv >= 5 && item.abv < 20) itemTags.push('medium_abv');
+        else if (item.abv >= 20) itemTags.push('high_abv');
+    }
+
     // Filter quotes that match at least one tag
     let matchingQuotes = quotesData.filter(quote => {
-        return quote.tags.some(tag => itemTags.includes(tag));
+        return quote.tags.some(tag => itemTags.indexOf(tag) !== -1);
     });
 
     // If no specific match, use 'umum'
     if (matchingQuotes.length === 0) {
-        matchingQuotes = quotesData.filter(q => q.tags.includes('umum'));
+        matchingQuotes = quotesData.filter(q => q.tags.indexOf('umum') !== -1);
     }
 
     // Return random matching quote
