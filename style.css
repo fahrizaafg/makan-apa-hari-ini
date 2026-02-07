@@ -30,9 +30,9 @@ body {
 }
 
 .container {
-    width: 90%;
-    max-width: 500px;
-    padding: 2rem;
+    width: 95%;
+    max-width: 550px;
+    padding: 1rem;
 }
 
 header h1 {
@@ -52,10 +52,10 @@ header h1 {
 /* Card Styling */
 .card {
     background: var(--card-bg);
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 20px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     transition: transform 0.3s ease;
     border: 3px solid var(--secondary-color);
 }
@@ -251,6 +251,15 @@ footer .about-app a {
 @media (max-width: 400px) {
     header h1 { font-size: 2rem; }
     #food-name { font-size: 1.8rem; }
+    
+    .container {
+        width: 100%;
+        padding: 0.8rem;
+    }
+    
+    .card {
+        padding: 1.2rem;
+    }
 }
 
 /* --- UPDATE STYLES --- */
