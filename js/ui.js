@@ -7,6 +7,7 @@ export function showLoader() {
     loader.classList.remove('hidden');
     
     // Manage buttons
+    // @ts-ignore
     btnMain.disabled = true;
     btnMain.classList.add('hidden');
 }
@@ -20,6 +21,7 @@ export function hideLoader() {
     
     // Manage buttons
     btnMain.classList.add('hidden');
+    // @ts-ignore
     btnMain.disabled = false;
 }
 
