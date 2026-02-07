@@ -1,5 +1,5 @@
 import {
-    btnMain, btnRetry, loader, resultCard, tabRandom, tabWheel, viewRandom, viewWheel
+    btnMain, loader, resultCard, tabRandom, tabWheel, viewRandom, viewWheel
 } from './dom.js';
 
 export function showLoader() {
@@ -9,7 +9,6 @@ export function showLoader() {
     // Manage buttons
     btnMain.disabled = true;
     btnMain.classList.add('hidden');
-    btnRetry.classList.add('hidden');
 }
 
 export function hideLoader() {
@@ -21,7 +20,6 @@ export function hideLoader() {
     
     // Manage buttons
     btnMain.classList.add('hidden');
-    btnRetry.classList.remove('hidden');
     btnMain.disabled = false;
 }
 

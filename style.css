@@ -179,28 +179,7 @@ button:active {
     }
 }
 
-/* Special styling for Ganti Menu button to be less obtrusive */
-#btn-retry {
-    background-color: transparent;
-    color: #b2bec3;
-    border: 2px solid #dfe6e9;
-    box-shadow: none;
-    margin-top: 2rem; /* Adjusted spacing to be balanced */
-    font-size: 1rem;
-    padding: 0.8rem 1.5rem;
-    max-width: 200px;
-}
 
-#btn-retry:hover {
-    border-color: #b2bec3;
-    color: #636e72;
-    background-color: transparent;
-    transform: translateY(0);
-}
-
-#btn-retry:active {
-    transform: translateY(1px);
-}
 
 .btn-secondary {
     background-color: var(--secondary-color);
