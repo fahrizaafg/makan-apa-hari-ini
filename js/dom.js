@@ -1,4 +1,5 @@
 // --- DOM ELEMENTS ---
+/** @type {HTMLButtonElement} */
 export const btnMain = document.getElementById('btn-main');
 export const loader = document.getElementById('loader');
 export const resultCard = document.getElementById('result-card');
@@ -8,6 +9,7 @@ export const foodDescEl = document.getElementById('food-desc'); // New element
 export const foodPriceEl = document.getElementById('food-price'); // New element
 export const foodCategoryEl = document.getElementById('food-category');
 export const foodQuoteEl = document.getElementById('food-quote');
+/** @type {HTMLButtonElement} */
 export const btnCardReroll = document.getElementById('btn-card-reroll'); // New button
 
 // Filter Elements
@@ -29,7 +31,9 @@ export const tabWheel = document.getElementById('tab-wheel');
 export const viewRandom = document.getElementById('view-random');
 export const viewWheel = document.getElementById('view-wheel');
 export const wheel = document.getElementById('wheel');
+/** @type {HTMLButtonElement} */
 export const btnSpin = document.getElementById('btn-spin');
 export const wheelResultDisplay = document.getElementById('wheel-result-display');
 export const wheelFoodName = document.getElementById('wheel-food-name');
+/** @type {HTMLButtonElement} */
 export const btnWheelReset = document.getElementById('btn-wheel-reset');
