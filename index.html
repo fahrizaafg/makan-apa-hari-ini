@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Makan Apa Hari Ini?</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts untuk tampilan FUN -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🍽️ Makan Apa Hari Ini?</h1>
+            <p class="subtitle">Bingung mau makan apa? Biar kami yang pilihin!</p>
+            
+            <!-- Controls Section -->
+            <div class="controls-panel">
+                <div class="finance-mode">
+                    <span>Kondisi Dompet:</span>
+                    <div class="radio-group">
+                        <label class="radio-label bokek">
+                            <input type="radio" name="finance" value="bokek" checked>
+                            <span class="radio-custom">💸 Bokek</span>
+                        </label>
+                        <label class="radio-label gajian">
+                            <input type="radio" name="finance" value="gajian">
+                            <span class="radio-custom">💰 Gajian</span>
+                        </label>
+                        <label class="radio-label sultan">
+                            <input type="radio" name="finance" value="sultan">
+                            <span class="radio-custom">👑 Sultan</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="type-mode">
+                    <span>Mau Cari Apa?</span>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="type" value="makanan" checked>
+                            <span class="radio-custom">🍽️ Makanan</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="type" value="minuman">
+                            <span class="radio-custom">🥤 Minuman</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="type" value="masak">
+                            <span class="radio-custom">🍳 Masak</span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="type" value="tempat">
+                            <span class="radio-custom">🏢 Tempat Makan</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="filters">
+                    <span>Filter:</span>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="filter-rice"> 
+                            <span class="checkbox-custom">🍚 Nasi</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="filter-noodle"> 
+                            <span class="checkbox-custom">🍜 Mie</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="filter-meat"> 
+                            <span class="checkbox-custom">🍖 Daging/Ayam</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="filter-seafood"> 
+                            <span class="checkbox-custom">🐟 Seafood</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="filter-healthy"> 
+                            <span class="checkbox-custom">🥗 Sehat/Diet</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="filter-spicy"> 
+                            <span class="checkbox-custom">🌶️ Pedas</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="filter-no-spicy"> 
+                            <span class="checkbox-custom">🚫 Tidak Pedas</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="filter-soup"> 
+                            <span class="checkbox-custom">🍲 Berkuah</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="filter-fried"> 
+                            <span class="checkbox-custom">🍳 Gorengan</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Mode Switcher -->
+            <div class="app-mode-switch">
+                <button id="tab-random" class="mode-btn active">🎲 Acak Cepat</button>
+                <button id="tab-wheel" class="mode-btn">🎡 Roda Putar</button>
+            </div>
+
+            <!-- VIEW 1: Random Result -->
+            <div id="view-random">
+                <div id="result-card" class="card hidden">
+                    <div class="food-emoji" id="food-emoji">😋</div>
+                    <h2 id="food-name">...</h2>
+                    <p id="food-desc" class="food-desc">Deskripsi makanan disini</p>
+                    <div class="price-tag" id="food-price">Rp0</div>
+                    <p id="food-quote" class="quote">Klik tombol di bawah buat cari inspirasi!</p>
+                    <div class="category-tag" id="food-category">Kategori</div>
+                </div>
+
+                <div class="loader hidden" id="loader">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+
+                <div class="action-area">
+                    <button id="btn-main" class="btn-primary pulse-animation">
+                        CARI MAKANAN! 🎲
+                    </button>
+                    
+                    <button id="btn-retry" class="btn-secondary hidden">
+                        Ganti Menu 🔄
+                    </button>
+                </div>
+            </div>
+
+            <!-- VIEW 2: Spin Wheel -->
+            <div id="view-wheel" class="hidden">
+                <div class="wheel-wrapper">
+                    <div class="pointer"></div>
+                    <div class="wheel" id="wheel">
+                        <!-- Segments generated by JS -->
+                    </div>
+                </div>
+                <button id="btn-spin" class="btn-primary">PUTAR RODA! 🎡</button>
+                <div id="wheel-result-display" class="card hidden">
+                    <h3>Selamat Menikmati!</h3>
+                    <h2 id="wheel-food-name">...</h2>
+                    <button id="btn-wheel-reset" class="btn-secondary">Putar Lagi 🔄</button>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Dibuat spesial buat perut kamu yang labil.</p>
+            <p class="about-app">Pembuat: Fahriza — Instagram <a href="https://instagram.com/fahrizaafg" target="_blank" rel="noopener">@fahrizaafg</a></p>
+        </footer>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

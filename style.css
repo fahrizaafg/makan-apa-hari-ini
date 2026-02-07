@@ -1,0 +1,521 @@
+:root {
+    --primary-color: #FF6B6B;
+    --secondary-color: #4ECDC4;
+    --accent-color: #FFE66D;
+    --text-color: #2D3436;
+    --bg-color: #F7F9FC;
+    --card-bg: #FFFFFF;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--bg-color);
+    background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+    background-size: 20px 20px;
+    color: var(--text-color);
+    min-height: 100vh;
+    min-height: 100dvh; /* Mobile viewport fix */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* Prevent pull-to-refresh on mobile if needed, or overscroll */
+    overscroll-behavior-y: none; 
+}
+
+.container {
+    width: 90%;
+    max-width: 500px;
+    padding: 2rem;
+}
+
+header h1 {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 0px #ffe66d;
+}
+
+.subtitle {
+    color: #636e72;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+/* Card Styling */
+.card {
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    transition: transform 0.3s ease;
+    border: 3px solid var(--secondary-color);
+}
+
+.card.hidden {
+    display: none;
+}
+
+.food-emoji {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: bounce 2s infinite;
+}
+
+#food-name {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 2rem;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+}
+
+.food-desc {
+    color: #636e72;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.price-tag {
+    display: inline-block;
+    background: #e0f7fa;
+    color: #006064;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    border: 1px solid #b2ebf2;
+}
+
+.quote {
+    font-style: italic;
+    color: #636e72;
+    margin-bottom: 1.5rem;
+    background: #f1f2f6;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.category-tag {
+    display: inline-block;
+    background: var(--accent-color);
+    color: var(--text-color);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Buttons */
+.action-area {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 1.2rem;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    transition: all 0.2s ease;
+    width: 100%;
+    max-width: 300px;
+    box-shadow: 0 5px 0 rgba(0,0,0,0.1);
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on iOS */
+    touch-action: manipulation; /* Improve touch response */
+}
+
+button:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 0 rgba(0,0,0,0.1);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+@media (hover: hover) {
+    .btn-primary:hover {
+        background-color: #ff5252;
+    }
+    
+    .btn-secondary:hover {
+        background-color: #3dc1b8;
+    }
+
+    .radio-label:hover .radio-custom {
+        background: #fff;
+        border-color: var(--secondary-color);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .checkbox-label:hover .checkbox-custom {
+        border-color: var(--accent-color);
+        background: #fffdf0;
+    }
+
+    footer .about-app a:hover {
+        color: var(--primary-color);
+        border-bottom-color: var(--primary-color);
+    }
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Loader */
+.loader {
+    margin: 2rem 0;
+}
+
+.dot {
+    height: 15px;
+    width: 15px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    display: inline-block;
+    animation: dot-pulse 1.4s infinite ease-in-out both;
+    margin: 0 3px;
+}
+
+.dot:nth-child(1) { animation-delay: -0.32s; }
+.dot:nth-child(2) { animation-delay: -0.16s; }
+
+/* Animations */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-20px);}
+    60% {transform: translateY(-10px);}
+}
+
+@keyframes dot-pulse {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+.pulse-animation {
+    animation: btn-pulse 2s infinite;
+}
+
+@keyframes btn-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Footer */
+footer {
+    margin-top: 3rem;
+    font-size: 0.8rem;
+    color: #b2bec3;
+}
+
+footer .about-app {
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: #b2bec3;
+}
+
+footer .about-app a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px dotted #b2bec3;
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+    header h1 { font-size: 2rem; }
+    #food-name { font-size: 1.8rem; }
+}
+
+/* --- UPDATE STYLES --- */
+
+/* Controls Panel */
+.controls-panel {
+    background: white;
+    padding: 1rem;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    text-align: center; /* Center everything by default */
+    font-size: 0.9rem;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.finance-mode, .filters, .type-mode {
+    margin-bottom: 1rem;
+}
+
+.finance-mode:last-child, .filters:last-child, .type-mode:last-child {
+    margin-bottom: 0;
+}
+
+.finance-mode span, .filters span, .type-mode span {
+    display: block;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    text-align: center; /* Explicitly center titles */
+}
+
+/* Radio Groups (Dompet & Type) */
+.radio-group {
+    display: grid;
+    /* More compact grid */
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); 
+    gap: 8px;
+    justify-content: center;
+}
+
+/* Specific grid for "Mau Cari Apa" to be proportional (2x2) */
+.type-mode .radio-group {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.radio-label {
+    cursor: pointer;
+    position: relative;
+}
+
+.radio-label input {
+    display: none;
+}
+
+.radio-custom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 5px; /* Reduced padding */
+    background: #f8f9fa;
+    border-radius: 12px;
+    text-align: center;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #e9ecef; /* Thinner border */
+    font-weight: 600;
+    color: #636e72;
+    height: 100%;
+    font-size: 0.9rem;
+}
+
+.radio-label input:checked + .radio-custom {
+    background: #fff;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(255, 107, 107, 0.2);
+}
+
+/* Special styling for 'Type' section to distinguish from 'Dompet' */
+.type-mode .radio-label input:checked + .radio-custom {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* Checkbox Groups (Filters) */
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px; /* Tighter gap */
+    margin-top: 5px;
+    justify-content: center; /* Center align filters */
+}
+
+.checkbox-label {
+    cursor: pointer;
+    flex-grow: 0; /* Don't stretch */
+}
+
+.checkbox-label input {
+    display: none;
+}
+
+.checkbox-custom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px; /* Smaller padding */
+    background: #fff;
+    border-radius: 50px;
+    font-size: 0.85rem; /* Smaller font */
+    color: #636e72;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #e9ecef;
+    font-weight: 600;
+    width: auto; /* Auto width */
+    min-width: max-content;
+}
+
+.checkbox-label input:checked + .checkbox-custom {
+    background: var(--accent-color);
+    color: var(--text-color);
+    border-color: var(--accent-color);
+    box-shadow: 0 2px 5px rgba(255, 230, 109, 0.3);
+    transform: scale(1.02);
+}
+
+
+/* Specific colors for specific filters (optional but nice) */
+/* Spicy = Red-ish/Orange */
+.checkbox-label input#filter-spicy:checked + .checkbox-custom {
+    background: #ff7675;
+    box-shadow: 0 4px 10px rgba(255, 118, 117, 0.4);
+}
+
+/* Healthy = Green */
+.checkbox-label input#filter-healthy:checked + .checkbox-custom {
+    background: #55efc4;
+    color: #2d3436;
+    box-shadow: 0 4px 10px rgba(85, 239, 196, 0.4);
+}
+
+/* Mode Switcher */
+.app-mode-switch {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.mode-btn {
+    background: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 8px 20px;
+    font-size: 1rem;
+    box-shadow: none;
+    border-radius: 50px; /* Consistently rounded */
+    cursor: pointer;
+}
+
+.mode-btn.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* --- NEW SPIN WHEEL STYLES --- */
+.wheel-wrapper {
+    position: relative;
+    width: 320px;
+    height: 320px;
+    margin: 0 auto 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    border-radius: 50%;
+    box-shadow: 
+        10px 10px 20px #bebebe, 
+        -10px -10px 20px #ffffff;
+    padding: 10px;
+}
+
+/* Decorative outer dots (using pseudo-element on wrapper if needed, but let's keep simple) */
+.wheel-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 10px; left: 10px; right: 10px; bottom: 10px;
+    border-radius: 50%;
+    border: 2px dashed #d1d8e0;
+    pointer-events: none;
+}
+
+.wheel {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: relative;
+    transition: transform 4s cubic-bezier(0.15, 0.9, 0.35, 1.05); /* Spring-like easing */
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    /* Conic gradient set via JS */
+}
+
+/* Center Cap */
+.wheel-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 50%;
+    z-index: 5;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    border: 4px solid var(--accent-color);
+}
+
+/* Items inside wheel */
+.wheel-item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    /* Rotation handled in JS */
+}
+
+.wheel-text {
+    position: absolute;
+    left: -20px; /* Center horizontally relative to parent */
+    top: -125px; /* Push out to edge */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+    /* Transform to make emoji face center or up */
+}
+
+/* Pointer */
+.pointer {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 40px;
+    height: 50px;
+    background: var(--primary-color);
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+    filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
+}
+
+/* Utility */
+.btn-small {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+}

@@ -1,0 +1,160 @@
+import { foodList } from './data.js';
+import { placesList } from './places.js';
+import { 
+    radioFinance, radioType, 
+    filterSpicy, filterHealthy, 
+    filterNoSpicy, filterSoup, filterFried,
+    filterRice, filterNoodle, filterMeat, filterSeafood
+} from './dom.js';
+
+export function getFilteredFood() {
+    // 1. Check Finance Mode
+    let selectedMode = 'bokek';
+    radioFinance.forEach(radio => {
+        if (radio.checked) selectedMode = radio.value;
+    });
+
+    // 2. Check Type Mode (Makanan / Minuman / Masak / Tempat)
+    let selectedType = 'makanan';
+    radioType.forEach(radio => {
+        if (radio.checked) selectedType = radio.value;
+    });
+
+    // --- TEMPAT MAKAN LOGIC ---
+    if (selectedType === 'tempat') {
+        return placesList.filter(place => {
+            // Bokek Mode: Price 1 (Warkop/Warung)
+            if (selectedMode === 'bokek') {
+                return place.price === 1;
+            }
+            // Gajian/Sultan Mode: Price >= 2 (Cafe/Resto)
+            if (selectedMode === 'gajian' || selectedMode === 'sultan') {
+                return place.price >= 2;
+            }
+            return true;
+        });
+    }
+
+    // 3. Food/Drink Filter Logic
+    return foodList.filter(food => {
+        // --- TYPE FILTER ---
+        if (selectedType === 'makanan') {
+            if (food.category === 'Minuman') return false;
+            if (food.tags.includes('masak')) return false;
+        } 
+        else if (selectedType === 'minuman') {
+            if (food.category !== 'Minuman') return false;
+        }
+        else if (selectedType === 'masak') {
+            if (!food.tags.includes('masak')) return false;
+        }
+
+        // --- PRICE FILTER ---
+        if (selectedMode === 'bokek') {
+            if (food.price !== 1) return false;
+        } else if (selectedMode === 'gajian') {
+            if (food.price !== 2) return false;
+        } else if (selectedMode === 'sultan') {
+            if (food.price !== 3) return false;
+        }
+
+        // --- TAG FILTERS ---
+        // Helper for Keyword Matching
+        const searchStr = (food.name + " " + food.desc + " " + food.category + " " + (food.tags ? food.tags.join(" ") : "")).toLowerCase();
+
+        // 1. Healthy
+        if (filterHealthy.checked && !food.tags.includes('sehat')) return false;
+        
+        // 2. Spicy
+        if (filterSpicy.checked && !food.tags.includes('pedas')) return false;
+        
+        // 3. No Spicy
+        if (filterNoSpicy.checked && food.tags.includes('pedas')) return false;
+
+        // 4. Soup / Berkuah
+        if (filterSoup.checked) {
+            const soupCategories = ['Soto', 'Sop', 'Bakso', 'Sayur'];
+            const soupKeywords = ['kuah', 'siram', 'godog', 'rebus', 'steamboat', 'suki'];
+            
+            const isSoupCategory = soupCategories.includes(food.category);
+            const hasSoupKeyword = soupKeywords.some(k => searchStr.includes(k));
+            const isDryKeyword = ['goreng', 'bakar', 'penyet', 'kering', 'yamin'].some(k => searchStr.includes(k));
+
+            if (food.category === 'Minuman') {
+                 const drinkSoupKeywords = ['wedang', 'sop buah', 'sekoteng'];
+                 if (!drinkSoupKeywords.some(k => searchStr.includes(k))) return false;
+            } else {
+                if (isSoupCategory) {
+                    if (searchStr.includes('bakar') || searchStr.includes('goreng')) {
+                         if (!searchStr.includes('kuah')) return false;
+                    }
+                } else {
+                    if (!hasSoupKeyword) return false;
+                    if (isDryKeyword && !searchStr.includes('kuah')) return false;
+                }
+            }
+        }
+
+        // 5. Fried / Gorengan
+        if (filterFried.checked) {
+            const friedKeywords = ['goreng', 'bakar', 'penyet', 'krispi', 'fry', 'katsu', 'geprek', 'sate', 'steak']; 
+            const hasFriedKeyword = friedKeywords.some(k => searchStr.includes(k));
+            if (!hasFriedKeyword) return false;
+        }
+
+        // 6. Rice / Nasi
+        if (filterRice.checked) {
+            const isRiceCategory = food.category === 'Nasi';
+            const hasRiceKeyword = searchStr.includes('nasi') || searchStr.includes('rice') || searchStr.includes('bubur') || searchStr.includes('lontong') || searchStr.includes('ketupat');
+            // Check if it's a "Lauk" that is typically eaten with rice? No, strict "Nasi" usually means "Rice Dish".
+            // If user selects "Nasi", they probably want Nasi Goreng, Nasi Uduk, etc.
+            if (!isRiceCategory && !hasRiceKeyword) return false;
+        }
+
+        // 7. Noodle / Mie
+        if (filterNoodle.checked) {
+            const isNoodleCategory = food.category === 'Mie' || food.category === 'Pasta';
+            const hasNoodleKeyword = searchStr.includes('mie') || searchStr.includes('noodle') || searchStr.includes('spaghetti') || searchStr.includes('pasta') || searchStr.includes('kwetiau') || searchStr.includes('bihun') || searchStr.includes('soun') || searchStr.includes('ramen') || searchStr.includes('udon');
+            if (!isNoodleCategory && !hasNoodleKeyword) return false;
+        }
+
+        // 8. Meat / Daging
+        if (filterMeat.checked) {
+            const meatCategories = ['Daging', 'Ayam', 'Bebek', 'Sate', 'Western', 'Korea', 'Jepang', 'Fast Food'];
+            const meatKeywords = ['sapi', 'ayam', 'bebek', 'kambing', 'babi', 'steak', 'burger', 'meat', 'chicken', 'beef', 'pork', 'lamb', 'sosis', 'kornet', 'bakso', 'rendang', 'gulai', 'sate'];
+            
+            // Exclude if Seafood/Ikan (unless Mixed)
+            const isSeafood = food.category === 'Ikan' || food.category === 'Seafood' || searchStr.includes('ikan') || searchStr.includes('udang') || searchStr.includes('cumi');
+            
+            const isMeatCategory = meatCategories.includes(food.category);
+            const hasMeatKeyword = meatKeywords.some(k => searchStr.includes(k));
+            
+            if (!isMeatCategory && !hasMeatKeyword) return false;
+            
+            // If strictly seafood category, might not want to show under "Daging" unless it has meat components? 
+            // Actually "Daging" usually implies Red/White meat, not Fish.
+            // If user checks "Daging" and result is "Ikan Bakar", they might be confused.
+            if (food.category === 'Ikan' || food.category === 'Seafood') return false;
+        }
+
+        // 9. Seafood
+        if (filterSeafood.checked) {
+            const seafoodCategories = ['Seafood', 'Ikan'];
+            // Removed 'teri' to avoid matching 'teriyaki'. Added 'ikan teri' specific check if needed, 
+            // but 'ikan' usually covers it or tags.
+            const seafoodKeywords = ['ikan', 'udang', 'cumi', 'kepiting', 'kerang', 'lele', 'gurame', 'nila', 'kakap', 'dori', 'tuna', 'salmon', 'sardine'];
+            
+            const isSeafoodCategory = seafoodCategories.includes(food.category);
+            let hasSeafoodKeyword = seafoodKeywords.some(k => searchStr.includes(k));
+            
+            // Special check for 'teri' (anchovy) but avoid 'teriyaki'
+            if (searchStr.includes('teri') && !searchStr.includes('teriyaki')) {
+                hasSeafoodKeyword = true;
+            }
+            
+            if (!isSeafoodCategory && !hasSeafoodKeyword) return false;
+        }
+
+        return true;
+    });
+}

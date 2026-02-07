@@ -1,0 +1,9 @@
+STATISTIK MENU MAKAN APA HARI INI
+=================================
+Total Menu (Makanan + Minuman): 218
+- Bokek (Rp < 15rb): 125
+- Mahal / Gajian (Rp 15rb - 100rb): 75
+- Sultan (> Rp 100rb): 18
+
+Menu Masakan (Anak Kos/Masak Sendiri): 42
+Tempat Makan (Bandung): 20
