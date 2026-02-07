@@ -16,6 +16,9 @@ export function hideLoader() {
     loader.classList.add('hidden');
     resultCard.classList.remove('hidden');
     
+    // Auto Scroll for better UX
+    resultCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
     // Manage buttons
     btnMain.classList.add('hidden');
     btnRetry.classList.remove('hidden');

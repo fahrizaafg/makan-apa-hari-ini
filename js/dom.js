@@ -9,6 +9,7 @@ export const foodPriceEl = document.getElementById('food-price'); // New element
 export const foodCategoryEl = document.getElementById('food-category');
 export const foodQuoteEl = document.getElementById('food-quote');
 export const btnRetry = document.getElementById('btn-retry');
+export const btnCardReroll = document.getElementById('btn-card-reroll'); // New button
 
 // Filter Elements
 export const radioFinance = document.querySelectorAll('input[name="finance"]');

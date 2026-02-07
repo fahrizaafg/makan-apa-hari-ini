@@ -1,4 +1,4 @@
-import { btnMain, btnRetry, btnSpin, btnWheelReset, tabRandom, tabWheel } from './js/dom.js';
+import { btnMain, btnRetry, btnCardReroll, btnSpin, btnWheelReset, tabRandom, tabWheel } from './js/dom.js';
 import { pickFood } from './js/random.js';
 import { setupWheel, spinWheel } from './js/wheel.js';
 import { switchTabUI } from './js/ui.js';
@@ -6,6 +6,7 @@ import { switchTabUI } from './js/ui.js';
 // --- EVENT LISTENERS ---
 btnMain.addEventListener('click', pickFood);
 btnRetry.addEventListener('click', pickFood);
+btnCardReroll.addEventListener('click', pickFood); // New listener
 
 btnSpin.addEventListener('click', spinWheel);
 btnWheelReset.addEventListener('click', spinWheel);
