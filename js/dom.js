@@ -49,3 +49,7 @@ export const wheelResultDisplay = document.getElementById('wheel-result-display'
 export const wheelFoodName = document.getElementById('wheel-food-name');
 
 export const btnWheelReset = document.getElementById('btn-wheel-reset');
+
+// Popup Elements
+export const popupEmpty = document.getElementById('popup-empty');
+export const btnClosePopup = document.getElementById('btn-close-popup');

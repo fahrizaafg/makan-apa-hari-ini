@@ -1,6 +1,15 @@
 import {
-    btnMain, loader, resultCard, tabRandom, tabWheel, viewRandom, viewWheel
+    btnMain, loader, resultCard, tabRandom, tabWheel, viewRandom, viewWheel,
+    popupEmpty
 } from './dom.js';
+
+export function showEmptyPopup() {
+    popupEmpty.classList.remove('hidden');
+}
+
+export function hideEmptyPopup() {
+    popupEmpty.classList.add('hidden');
+}
 
 export function showLoader() {
     resultCard.classList.add('hidden');

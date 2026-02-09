@@ -2,7 +2,7 @@ import { funnyQuotes } from './data.js'; // Keep for backward compatibility if n
 import { getRelevantQuote } from './quotes.js';
 import { getFilteredFood } from './filter.js';
 import { getRandomItem } from './utils.js';
-import { showLoader, hideLoader } from './ui.js';
+import { showLoader, hideLoader, showEmptyPopup } from './ui.js';
 import { 
     foodNameEl, foodCategoryEl, foodEmojiEl, foodQuoteEl, 
     foodDescEl, foodPriceEl, radioFinance 
@@ -12,7 +12,7 @@ export function pickFood() {
     const filtered = getFilteredFood();
 
     if (filtered.length === 0) {
-        alert("Waduh! Gak ada menu/tempat yang cocok sama filter kamu. Coba ubah filternya ya!");
+        showEmptyPopup();
         return;
     }
 

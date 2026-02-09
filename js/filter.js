@@ -180,3 +180,21 @@ export function getFilteredFood() {
         return true;
     });
 }
+
+export function updateFilterVisibility() {
+    let selectedType = 'makanan';
+    radioType.forEach(radio => {
+        if (radio.checked) selectedType = radio.value;
+    });
+
+    const alcoholParent = filterAlcohol.closest('.checkbox-label');
+
+    if (selectedType === 'minuman') {
+        filterAlcohol.disabled = false;
+        if (alcoholParent) alcoholParent.classList.remove('disabled-filter');
+    } else {
+        filterAlcohol.checked = false;
+        filterAlcohol.disabled = true;
+        if (alcoholParent) alcoholParent.classList.add('disabled-filter');
+    }
+}
